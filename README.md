@@ -1,2 +1,0 @@
-# Fotofolio
-DBMS Project
