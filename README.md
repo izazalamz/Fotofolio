@@ -77,4 +77,4 @@ It enables clients to find, book, and review photographers while giving photogra
 
 ---
 
-© 2025 Fotolio
+© 2025 FotoFolio
