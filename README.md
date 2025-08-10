@@ -1,6 +1,6 @@
 # FotoFolio
 
-Fotolio is a freelance photographer hiring platform designed as a DBMS course project. 
+FotoFolio is a freelance photographer hiring platform designed as a DBMS course project. 
 It enables clients to find, book, and review photographers while giving photographers a platform to showcase their portfolios.
 
 ---
