@@ -320,6 +320,16 @@ section {
     padding: var(--spacing-3xl) 0;
 }
 
+/* Page Sections for routing */
+.page-section {
+    display: block; /* Ensure sections are visible by default */
+}
+
+/* Hero section should always be visible */
+.hero {
+    display: block !important;
+}
+
 .section-header {
     text-align: center;
     margin-bottom: var(--spacing-2xl);

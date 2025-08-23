@@ -46,10 +46,12 @@
                 <h1 class="hero-title">Discover Amazing Photography</h1>
                 <p class="hero-subtitle">Explore stunning images from talented photographers around the world</p>
                 <div class="hero-search">
-                    <input type="text" id="searchInput" placeholder="Search photos, artists, or categories...">
-                    <button class="btn btn-primary" id="searchBtn">
-                        <i class="fas fa-search"></i>
-                    </button>
+                    <form id="search-form">
+                        <input type="text" id="search-input" placeholder="Search photos, artists, or categories...">
+                        <button type="submit" class="btn btn-primary" id="searchBtn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
                 </div>
                 <div class="hero-stats">
                     <div class="stat">
@@ -64,6 +66,12 @@
                         <span class="stat-number" id="totalCategories">0</span>
                         <span class="stat-label">Categories</span>
                     </div>
+                </div>
+                
+                <!-- Debug buttons for testing -->
+                <div class="debug-buttons" style="margin-top: 20px; text-align: center;">
+                    <button class="btn btn-outline" onclick="testRouting()" style="margin: 0 10px;">Test Routing</button>
+                    <button class="btn btn-outline" onclick="console.log('App instance:', window.app)" style="margin: 0 10px;">Check App</button>
                 </div>
             </div>
             <div class="hero-background">
@@ -142,7 +150,7 @@
         </section>
 
         <!-- About Section -->
-        <section id="about" class="about">
+        <section id="about" class="about page-section">
             <div class="container">
                 <div class="about-content">
                     <div class="about-text">
@@ -206,14 +214,15 @@
 
     <!-- Modals -->
     <!-- Login Modal -->
-    <div class="modal" id="loginModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Login to Fotofolio</h3>
-                <button class="modal-close" id="loginModalClose">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form id="loginForm">
+    <div class="modal" id="login-modal">
+        <div class="modal-overlay">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Login to Fotofolio</h3>
+                    <button class="modal-close" id="loginModalClose">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm">
                     <div class="form-group">
                         <label for="loginUsername">Username or Email</label>
                         <input type="text" id="loginUsername" required>
@@ -271,11 +280,12 @@
 
     <!-- Photo Detail Modal -->
     <div class="modal" id="photoModal">
-        <div class="modal-content modal-large">
-            <div class="modal-header">
-                <h3 id="photoModalTitle">Photo Details</h3>
-                <button class="modal-close" id="photoModalClose">&times;</button>
-            </div>
+        <div class="modal-overlay">
+            <div class="modal-content modal-large">
+                <div class="modal-header">
+                    <h3 id="photoModalTitle">Photo Details</h3>
+                    <button class="modal-close" id="photoModalClose">&times;</button>
+                </div>
             <div class="modal-body">
                 <div class="photo-detail">
                     <div class="photo-image">
@@ -315,11 +325,12 @@
 
     <!-- User Profile Modal -->
     <div class="modal" id="profileModal">
-        <div class="modal-content modal-large">
-            <div class="modal-header">
-                <h3 id="profileModalTitle">User Profile</h3>
-                <button class="modal-close" id="profileModalClose">&times;</button>
-            </div>
+        <div class="modal-overlay">
+            <div class="modal-content modal-large">
+                <div class="modal-header">
+                    <h3 id="profileModalTitle">User Profile</h3>
+                    <button class="modal-close" id="profileModalClose">&times;</button>
+                </div>
             <div class="modal-body">
                 <div class="profile-detail">
                     <div class="profile-header">

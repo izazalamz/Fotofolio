@@ -3,6 +3,7 @@
  */
 class App {
     constructor() {
+        console.log('App constructor called');
         this.currentPage = 'home';
         this.isInitialized = false;
         this.init();
@@ -10,10 +11,13 @@ class App {
 
     async init() {
         try {
+            console.log('App init started, DOM ready state:', document.readyState);
             // Wait for DOM to be ready
             if (document.readyState === 'loading') {
+                console.log('DOM still loading, adding event listener');
                 document.addEventListener('DOMContentLoaded', () => this.setupApp());
             } else {
+                console.log('DOM already ready, calling setupApp directly');
                 this.setupApp();
             }
         } catch (error) {
@@ -23,28 +27,34 @@ class App {
     }
 
     setupApp() {
-        // Initialize all services
-        this.initializeServices();
+        console.log('Setting up Fotofolio application...');
         
-        // Set up global event listeners
-        this.setupGlobalEventListeners();
-        
-        // Initialize authentication state
-        this.initializeAuth();
-        
-        // Load initial data
-        this.loadInitialData();
-        
-        // Set up routing
-        this.setupRouting();
-        
-        // Mark as initialized
-        this.isInitialized = true;
-        
-        // Hide loading spinner if exists
-        UIUtils.hideLoadingSpinner();
-        
-        console.log('Fotofolio application initialized successfully');
+        try {
+            // Initialize all services
+            this.initializeServices();
+            
+            // Set up global event listeners
+            this.setupGlobalEventListeners();
+            
+            // Initialize authentication state
+            this.initializeAuth();
+            
+            // Load initial data
+            this.loadInitialData();
+            
+            // Set up routing
+            this.setupRouting();
+            
+            // Mark as initialized
+            this.isInitialized = true;
+            
+            // Hide loading spinner if exists
+            UIUtils.hideLoadingSpinner();
+            
+            console.log('Fotofolio application initialized successfully');
+        } catch (error) {
+            console.error('Error in setupApp:', error);
+        }
     }
 
     initializeServices() {
@@ -249,8 +259,10 @@ class App {
     }
 
     setupRouting() {
+        console.log('Setting up routing...');
         // Simple client-side routing
         const currentHash = window.location.hash.slice(1) || 'home';
+        console.log('Current hash:', currentHash);
         this.handleRouteChange(currentHash);
     }
 
@@ -261,6 +273,7 @@ class App {
     }
 
     handleRouteChange(page) {
+        console.log('Handling route change to:', page);
         this.currentPage = page;
         
         // Update active navigation
@@ -269,27 +282,35 @@ class App {
         // Handle page-specific logic
         switch (page) {
             case 'home':
+                console.log('Showing home page');
                 this.showHomePage();
                 break;
             case 'photos':
+                console.log('Showing photos page');
                 this.showPhotosPage();
                 break;
             case 'categories':
+                console.log('Showing categories page');
                 this.showCategoriesPage();
                 break;
             case 'artists':
+                console.log('Showing artists page');
                 this.showArtistsPage();
                 break;
             case 'about':
+                console.log('Showing about page');
                 this.showAboutPage();
                 break;
             case 'profile':
+                console.log('Showing profile page');
                 this.showProfilePage();
                 break;
             case 'upload':
+                console.log('Showing upload page');
                 this.showUploadPage();
                 break;
             default:
+                console.log('Defaulting to home page');
                 this.showHomePage();
         }
     }
@@ -308,11 +329,19 @@ class App {
     }
 
     showHomePage() {
-        // Home page is already visible by default
-        // Just ensure it's properly displayed
-        document.querySelectorAll('.page-section').forEach(section => {
-            section.style.display = 'block';
-        });
+        console.log('showHomePage called');
+        // Show home page sections
+        this.hideAllSections();
+        
+        // Show hero and featured sections
+        const heroSection = document.querySelector('.hero');
+        const featuredSection = document.querySelector('.featured-photos');
+        
+        console.log('Hero section found:', !!heroSection);
+        console.log('Featured section found:', !!featuredSection);
+        
+        if (heroSection) heroSection.style.display = 'block';
+        if (featuredSection) featuredSection.style.display = 'block';
     }
 
     showPhotosPage() {
@@ -376,7 +405,10 @@ class App {
     }
 
     hideAllSections() {
-        document.querySelectorAll('.page-section').forEach(section => {
+        console.log('hideAllSections called');
+        const sections = document.querySelectorAll('.page-section');
+        console.log('Found page sections:', sections.length);
+        sections.forEach(section => {
             section.style.display = 'none';
         });
     }
@@ -542,8 +574,39 @@ class App {
 
 // Initialize the application when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    window.app = App.getInstance();
+    console.log('DOM Content Loaded event fired');
+    try {
+        window.app = App.getInstance();
+        console.log('App instance created:', window.app);
+    } catch (error) {
+        console.error('Error creating app instance:', error);
+    }
 });
+
+// Also try to initialize immediately if DOM is already ready
+if (document.readyState !== 'loading') {
+    console.log('DOM already ready, initializing immediately');
+    try {
+        window.app = App.getInstance();
+        console.log('App instance created immediately:', window.app);
+    } catch (error) {
+        console.error('Error creating app instance immediately:', error);
+    }
+}
+
+// Test function for debugging
+function testRouting() {
+    console.log('=== ROUTING TEST ===');
+    console.log('App instance:', window.app);
+    console.log('Current page:', window.app?.currentPage);
+    console.log('Is initialized:', window.app?.isInitialized);
+    
+    // Test navigation
+    if (window.app) {
+        console.log('Testing navigation to photos page...');
+        window.app.navigateTo('photos');
+    }
+}
 
 // Export for use in other modules
 if (typeof module !== 'undefined' && module.exports) {
