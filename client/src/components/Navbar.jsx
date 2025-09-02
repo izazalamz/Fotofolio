@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import Button from './Button';
 
 export default function Navbar() {
@@ -40,17 +41,31 @@ export default function Navbar() {
             {navLinks.map((link) => {
               if (link.public || (token && (!link.role || link.role === role))) {
                 return (
-                  <Link
+                  <motion.div
                     key={link.path}
-                    to={link.path}
-                    className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                      isActive(link.path)
-                        ? 'text-blue-600 bg-blue-50'
-                        : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
-                    }`}
+                    className="relative"
+                    whileHover={{ y: -1 }}
+                    whileTap={{ y: 0 }}
                   >
-                    {link.label}
-                  </Link>
+                    <Link
+                      to={link.path}
+                      className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                        isActive(link.path)
+                          ? 'text-blue-600 bg-blue-50'
+                          : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
+                      }`}
+                    >
+                      {link.label}
+                    </Link>
+                    {isActive(link.path) && (
+                      <motion.div
+                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600"
+                        layoutId="activeIndicator"
+                        initial={false}
+                        transition={{ duration: 0.2, ease: 'easeOut' }}
+                      />
+                    )}
+                  </motion.div>
                 );
               }
               return null;
@@ -74,9 +89,11 @@ export default function Navbar() {
               </div>
             ) : (
               <div className="relative">
-                <button
+                <motion.button
                   onClick={() => setShowUserMenu(!showUserMenu)}
                   className="flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                  whileHover={{ y: -1 }}
+                  whileTap={{ y: 0 }}
                 >
                   <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
                     <span className="text-blue-600 font-semibold">
@@ -87,11 +104,17 @@ export default function Navbar() {
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
-                </button>
+                </motion.button>
 
                 {/* User Dropdown Menu */}
                 {showUserMenu && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200">
+                  <motion.div 
+                    className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200"
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    transition={{ duration: 0.15 }}
+                  >
                     <div className="px-4 py-2 text-sm text-gray-700 border-b border-gray-100">
                       <div className="font-medium">{name}</div>
                       <div className="text-gray-500 capitalize">{role}</div>
@@ -112,13 +135,22 @@ export default function Navbar() {
                         Post New Job
                       </Link>
                     )}
+                    {role === 'photographer' && (
+                      <Link
+                        to="/dashboard/portfolio"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        onClick={() => setShowUserMenu(false)}
+                      >
+                        My Portfolio
+                      </Link>
+                    )}
                     <button
                       onClick={logout}
                       className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     >
                       Sign Out
                     </button>
-                  </div>
+                  </motion.div>
                 )}
               </div>
             )}
@@ -132,21 +164,43 @@ export default function Navbar() {
           {navLinks.map((link) => {
             if (link.public || (token && (!link.role || link.role === role))) {
               return (
-                <Link
+                <motion.div
                   key={link.path}
-                  to={link.path}
-                  className={`block px-3 py-2 rounded-md text-base font-medium ${
-                    isActive(link.path)
-                      ? 'text-blue-600 bg-blue-50'
-                      : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
-                  }`}
+                  whileHover={{ x: 4 }}
+                  whileTap={{ x: 0 }}
                 >
-                  {link.label}
-                </Link>
+                  <Link
+                    to={link.path}
+                    className={`block px-3 py-2 rounded-md text-base font-medium ${
+                      isActive(link.path)
+                        ? 'text-blue-600 bg-blue-50'
+                        : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                </motion.div>
               );
             }
             return null;
           })}
+          {token && role === 'photographer' && (
+            <motion.div
+              whileHover={{ x: 4 }}
+              whileTap={{ x: 0 }}
+            >
+              <Link
+                to="/dashboard/portfolio"
+                className={`block px-3 py-2 rounded-md text-base font-medium ${
+                  isActive('/dashboard/portfolio')
+                    ? 'text-blue-600 bg-blue-50'
+                    : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
+                }`}
+              >
+                My Portfolio
+              </Link>
+            </motion.div>
+          )}
         </div>
       </div>
     </nav>

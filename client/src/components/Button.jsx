@@ -1,4 +1,6 @@
 import React from 'react';
+import { motion } from 'framer-motion';
+import { useReducedMotion } from '../lib/motion';
 
 export default function Button({ 
   children, 
@@ -8,6 +10,8 @@ export default function Button({
   className = '', 
   ...props 
 }) {
+  const reducedMotion = useReducedMotion();
+  
   const baseClasses = 'font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
   
   const variants = {
@@ -25,9 +29,20 @@ export default function Button({
 
   const classes = `${baseClasses} ${variants[variant]} ${sizes[size]} ${className}`;
 
+  const motionProps = disabled ? {} : {
+    whileHover: { scale: reducedMotion ? 1 : 1.02 },
+    whileTap: { scale: reducedMotion ? 1 : 0.98 },
+    transition: { duration: 0.15, ease: 'easeOut' }
+  };
+
   return (
-    <button className={classes} disabled={disabled} {...props}>
+    <motion.button 
+      className={classes} 
+      disabled={disabled} 
+      {...motionProps}
+      {...props}
+    >
       {children}
-    </button>
+    </motion.button>
   );
 }

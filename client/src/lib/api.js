@@ -52,3 +52,53 @@ export const api = {
     return handleResponse(response);
   }
 };
+
+// Portfolio API functions
+export const portfolioApi = {
+  async uploadPortfolioImage(formData) {
+    const response = await fetch(`${API_BASE}/portfolio/upload`, {
+      method: 'POST',
+      headers: { ...getAuthHeaders() },
+      body: formData
+    });
+    return handleResponse(response);
+  },
+
+  async listPortfolio(photographerId) {
+    return api.get(`/portfolio/${photographerId}`);
+  },
+
+  async deletePortfolioImage(id) {
+    return api.del(`/portfolio/${id}`);
+  }
+};
+
+// Reviews API functions
+export const reviewsApi = {
+  async postReview(bookingId, { rating, comment }) {
+    return api.post(`/reviews/${bookingId}`, { rating, comment });
+  },
+
+  async getPhotographerReviews(photographerId, { limit = 10, offset = 0 } = {}) {
+    return api.get(`/reviews/photographer/${photographerId}?limit=${limit}&offset=${offset}`);
+  },
+
+  async getReviewSummary(photographerId) {
+    return api.get(`/reviews/summary/${photographerId}`);
+  },
+
+  async getBookingReview(bookingId) {
+    return api.get(`/reviews/booking/${bookingId}`);
+  }
+};
+
+// Payments API functions
+export const paymentsApi = {
+  async payBooking(bookingId, amount = 0) {
+    return api.post(`/payments/${bookingId}/pay`, { amount });
+  },
+
+  async getPayment(bookingId) {
+    return api.get(`/payments/${bookingId}`);
+  }
+};
