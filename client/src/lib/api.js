@@ -102,3 +102,18 @@ export const paymentsApi = {
     return api.get(`/payments/${bookingId}`);
   }
 };
+// --- Booking API (add this if not present) ---
+export const bookingApi = {
+  async listBookings(status = '') {
+    const query = status ? `?status=${status}` : '';
+    return api.get(`/bookings${query}`);
+  },
+
+  async getBooking(id) {
+    return api.get(`/bookings/${id}`);
+  },
+
+  async acceptPhotographer(bookingId, photographerId) {
+    return api.post(`/bookings/${bookingId}/accept`, { photographerId });
+  }
+};

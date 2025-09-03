@@ -235,7 +235,18 @@ export default function BookingDetail() {
         <h2 className="text-xl font-semibold text-gray-900 mb-4 tracking-tight">Payment</h2>
         
         <AnimatePresence mode="wait">
-          {isPaid ? (
+          {!booking.photographer_id ? (
+            <motion.div
+              key="no-photographer"
+              className="text-gray-500 text-sm"
+              variants={crossfade}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+            >
+              Please select a photographer before making payment.
+            </motion.div>
+          ) : isPaid ? (
             <motion.div 
               key="paid"
               className="flex items-center gap-3"
@@ -304,7 +315,18 @@ export default function BookingDetail() {
         <h2 className="text-xl font-semibold text-gray-900 mb-4 tracking-tight">Review</h2>
         
         <AnimatePresence mode="wait">
-          {review?.exists ? (
+          {!booking.photographer_id ? (
+            <motion.div 
+              key="no-photographer-review"
+              className="text-center py-4 text-gray-500"
+              variants={crossfade}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+            >
+              You can only review a selected photographer.
+            </motion.div>
+          ) : review?.exists ? (
             <motion.div 
               key="review-display"
               className="bg-gray-50 rounded-lg p-4"
